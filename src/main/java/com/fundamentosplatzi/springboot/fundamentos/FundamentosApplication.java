@@ -58,6 +58,7 @@ public class FundamentosApplication implements CommandLineRunner {
 
 	private void getInformationJpqlFromUser()
 	{
+		/*
 		LOGGER.info("Usuario con el metodo findByUserEmail : "+userRepository.findByUserEmail("prueba@prueba.com").
 				orElseThrow(() -> new RuntimeException("No se encontro el usuario")));
 		userRepository.findAndSort("Prueb", Sort.by("id").descending())
@@ -68,6 +69,20 @@ public class FundamentosApplication implements CommandLineRunner {
 
 		LOGGER.info("Usuario con query method findByEmailAndName: "+userRepository.findByEmailAndName("prueba5@prueba.com","Prueba5")
 				.orElseThrow(() -> new RuntimeException("Usuario no encontrado")));
+
+		userRepository.findByNameLike("%Prue%")
+				.forEach(user -> LOGGER.info("Usuario findByNameLike"+user));
+
+		userRepository.findByNameOrEmail(null, "prueba@prueba.com")
+				.forEach(user -> LOGGER.info("Usuario findByNameOrEmail"+user));
+		*/
+
+		userRepository.findByBirthDateBetween(LocalDate.of(2021,8,10), LocalDate.of(2021,8,10))
+				.forEach(user -> LOGGER.info("usuario con intervalo de fechas : "+user));
+
+		userRepository.findByNameLikeOrderByIdDesc("%Prueba%")
+				.forEach(user -> LOGGER.info("Usuario encontrado con findByNameLikeOrderByIdDesc : "+user));
+
 	}
 
 	private void saveUserInDataBase(){
@@ -75,7 +90,7 @@ public class FundamentosApplication implements CommandLineRunner {
 		User user2 = new User ("Prueba2","prueba2@prueba.com", LocalDate.of(2021,8,10));
 		User user3 = new User ("Prueba3","prueba3@prueba.com", LocalDate.of(2021,8,10));
 		User user4 = new User ("Prueba4","prueba4@prueba.com", LocalDate.of(2021,8,10));
-		User user5 = new User ("Prueba5","prueba5@prueba.com", LocalDate.of(2021,8,10));
+		User user5 = new User ("Prueba5","prueba5@prueba.com", LocalDate.of(2021,8,11));
 
 		List<User> list = Arrays.asList(user1,user2,user3,user4,user5);
 		list.forEach(userRepository::save);
